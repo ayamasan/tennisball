@@ -1,4 +1,5 @@
 let 乱数移動 = 0
+bluetooth.startUartService()
 let 位置 = 0
 let 角度 = 2
 let ボール = game.createSprite(位置, 角度)
@@ -29,15 +30,15 @@ basic.forever(function () {
     } else if (角度 + 上下移動 + 乱数移動 > 4) {
         乱数移動 = 0
     }
-    上下移動 = 上下移動 + 乱数移動
+    bluetooth.uartWriteNumber(乱数移動)
     位置 += 方向
-    角度 += 上下移動
+    角度 += 上下移動 + 乱数移動
     ボール.set(LedSpriteProperty.X, 位置)
     ボール.set(LedSpriteProperty.Y, 角度)
     if (位置 == 4) {
-        乱数移動 = randint(-1, 1)
+        乱数移動 = Math.trunc(randint(-150, 150) / 100)
     } else if (位置 == 0) {
-        乱数移動 = randint(-1, 1)
+        乱数移動 = Math.trunc(randint(-150, 150) / 100)
     } else {
         乱数移動 = 0
     }
